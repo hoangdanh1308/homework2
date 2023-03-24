@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdint.h>
+
+uint8_t arr[] = {1, 1, 9, 3, 7, 2, 6, 7, 8, 2, 9, 9, 3};
+const uint8_t numArr = sizeof(arr);
+
+char arrNews[] = "The highlight of the Vietnam GameVerse is Game Awards 2023 on the evening of April 1. The gala will announce the top 14 award categories, including the Game of the Year, and other awards for excellent publishers, products, services, communities, teams, and gamers";
+int numArrNews = sizeof(arrNews)-1;
+
+void insertSortArray(uint8_t arr[],const uint8_t numArr){
+
+    int indexPos, temp;
+    for(int i = 0; i < numArr ; i++){
+        temp = arr[i];
+        indexPos = i;
+        while(indexPos > 0 && arr[indexPos-1] > temp){
+            arr[indexPos] = arr[indexPos-1];
+            indexPos--;
+        }
+        arr[indexPos] = temp;
+    }
+    printf("THE ARRAY AFFTER SORTING IS:\n");
+    for(int i = 0; i < numArr; i++){
+        printf("%d ",arr[i]);
+    }
+    printf("\n");
+}
+
+void frequencyofElement(uint8_t arr[],const uint8_t numArr){
+
+    int8_t frequency = 1;
+     for(int i = 0; i < numArr; i++){
+        for(int j = i + 1;j < numArr; j++ ){
+            if(arr[i] == arr[j]){
+                frequency = ++frequency;
+                if(j == (numArr - 1)){
+                     printf("Number of occurrences of the number %d is: %d\n",arr[i],frequency);
+                     i = numArr;
+                }
+            }
+            else{
+                printf("Number of occurrences of the number %d is: %d\n",arr[i],frequency);
+                i = j;
+                frequency = 1;
+            }
+        }
+    }
+}
+
+void invertArr(char arrNews[],int beginIndex, int endIndex){
+    char temp;
+    int j=0;
+    for(int i = beginIndex; i<=(beginIndex + endIndex)/2; i++){
+        temp = arrNews[i];
+        arrNews[i] = arrNews[endIndex - j];
+        arrNews[endIndex - j] = temp;
+        j++;
+    }
+}
+
+int main(int argc, char const *argv[])
+{
+    insertSortArray(arr, numArr);
+    frequencyofElement(arr, numArr);
+
+    printf("The paragraph before the inversion is: \n");
+    for(int i = 0; i < numArrNews + 1; i++){
+        printf("%c",arrNews[i]);
+    }
+    printf("\n");
+
+    invertArr(arrNews, 0, numArrNews);
+    int beginPosition = 0;
+    for(int i = 2; i <= numArrNews + 1 ; i++){
+        if(arrNews[i] == ' '|| i == numArrNews + 1 ){
+            invertArr(arrNews,beginPosition, i - 1);
+            beginPosition = i + 1;
+        }
+    }
+
+    printf("The paragraph after the inversion is: \n");
+    for(int i = 0; i < numArrNews + 1; i++){
+        printf("%c",arrNews[i]);
+    }
+
+    return 0;
+}
+
